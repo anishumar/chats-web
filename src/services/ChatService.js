@@ -3,7 +3,7 @@ import auth from "../config/firebase";
 import { io } from "socket.io-client";
 
 const API_URL = process.env.REACT_APP_API_URL || window.location.origin;
-const baseURL = `${API_URL}/api`;
+const baseURL = `${API_URL}/api/v1`;
 
 const getUserToken = async () => {
   const user = auth.currentUser;
@@ -39,7 +39,7 @@ export const getAllUsers = async () => {
   const header = await createHeader();
 
   try {
-    const res = await axios.get(`${baseURL}/user`, header);
+    const res = await axios.get(`${baseURL}/users`, header);
     return res.data;
   } catch (e) {
     console.error(e);
@@ -50,7 +50,7 @@ export const getUser = async (userId) => {
   const header = await createHeader();
 
   try {
-    const res = await axios.get(`${baseURL}/user/${userId}`, header);
+    const res = await axios.get(`${baseURL}/users/${userId}`, header);
     return res.data;
   } catch (e) {
     console.error(e);
@@ -72,7 +72,7 @@ export const getChatRooms = async (userId) => {
   const header = await createHeader();
 
   try {
-    const res = await axios.get(`${baseURL}/room/${userId}`, header);
+    const res = await axios.get(`${baseURL}/users/${userId}/chat-rooms`, header);
     return res.data;
   } catch (e) {
     console.error(e);
@@ -84,7 +84,7 @@ export const getChatRoomOfUsers = async (firstUserId, secondUserId) => {
 
   try {
     const res = await axios.get(
-      `${baseURL}/room/${firstUserId}/${secondUserId}`,
+      `${baseURL}/chat-rooms/by-members/${firstUserId}/${secondUserId}`,
       header
     );
     return res.data;
@@ -97,7 +97,7 @@ export const createChatRoom = async (members) => {
   const header = await createHeader();
 
   try {
-    const res = await axios.post(`${baseURL}/room`, members, header);
+    const res = await axios.post(`${baseURL}/chat-rooms`, members, header);
     return res.data;
   } catch (e) {
     console.error(e);
@@ -108,7 +108,7 @@ export const getMessagesOfChatRoom = async (chatRoomId) => {
   const header = await createHeader();
 
   try {
-    const res = await axios.get(`${baseURL}/message/${chatRoomId}`, header);
+    const res = await axios.get(`${baseURL}/chat-rooms/${chatRoomId}/messages`, header);
     return res.data;
   } catch (e) {
     console.error(e);
@@ -119,7 +119,7 @@ export const sendMessage = async (messageBody) => {
   const header = await createHeader();
 
   try {
-    const res = await axios.post(`${baseURL}/message`, messageBody, header);
+    const res = await axios.post(`${baseURL}/messages`, messageBody, header);
     return res.data;
   } catch (e) {
     console.error(e);
