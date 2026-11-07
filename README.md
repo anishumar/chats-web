@@ -37,4 +37,4 @@ npm install
 npm start
 ```
 
-The app runs at http://localhost:3000. The backend address is set in `src/services/ChatService.js`.
+The app runs at http://localhost:3000. Set `REACT_APP_API_URL` in `.env` to your backend's address. Without it, the app calls the same origin it's served from.
